@@ -4,6 +4,8 @@ import com.nyancoin.ABCBooks.Book.AuthorRepository;
 import com.nyancoin.ABCBooks.Book.AuthorEntity;
 import com.nyancoin.ABCBooks.Book.Author;
 
+import com.nyancoin.ABCBooks.Book.Form; // Utility class with HTML form constants and helper methods.
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,14 +30,15 @@ public class BookApplication {
 	@Autowired
 	private Book bookService;
 
+	private Form formFormer;
+
 	public static void main(String[] args) {		
 		SpringApplication.run(BookApplication.class, args);
 	}
 
 	public BookApplication()
 	{
-		// Let spring create!
-		//authorService = new Author(authorRepository);
+		formFormer = new Form();
 	}
 
 	@RequestMapping("/")
@@ -72,7 +75,7 @@ public class BookApplication {
 	public String addbook(@RequestParam(value = "author", defaultValue = "") String author,
 						  @RequestParam(value = "title", defaultValue = "") String title) {
 		String result = "";
-		String form = "<form><label for=\"author\">Author</label><br><input type=\"text\" id=\"author\" name=\"author\" value=\"\" autofocus><br><label for=\"title\">Title</label><br><input type=\"text\" id=\"title\" name=\"title\" value=\"\"><br><br><input type=\"submit\" value=\"Submit\"></form>";
+		String form = formFormer.basic_book_input;
 		
 		if (author.isEmpty() && title.isEmpty()) {
 			result = form;
@@ -80,33 +83,20 @@ public class BookApplication {
 			result = "Author: " + author + "; Title: " + title + "<br>";
 			result += "*Beep boop* Database entry added! (Just a bit though.)";
 			Integer aid = authorService.LookupOrAdd(author);
-			result += "Author id comes back as: " + aid;
+			result += "<br>Author id comes back as: " + aid + "<br>";
 			result += "Book id comes back as: " + bookService.LookupOrAdd(aid, title);
 
-			// TODO actually have database recording this
-			// TODO check for obvious duplicate here
 			result = result + "<br><br>" + form;
 		} else {
-			// Either author or title is set but not both.
-			// This case should be handled with a default value setting in form to save what's been entered incompletely
-			// TODO: Fix as per above; 
-			result = "*Error* Only title or author but not both given. Case needs to be handled better (store prior given value).";
+			result = "*Error* Only title or author but not both given.";
 			result = result + "<br><br> Please retry. <br><br>" + form;
 
-			// Kludge of repeating magic value of form with slight modifications.
-			// TODO Ultimately have a form generation uio wrapper
 			if (author.isEmpty()) {
 				result = "Please specify a name of an author as well as the title.<br>";
-				result += "<form><label for=\"author\">Author</label><br><input type=\"text\" id=\"author\" name=\"author\" value=\"\" autofocus><br><label for=\"title\">Title</label><br><input type=\"text\" id=\"title\" name=\"title\" value=\"";
-				result += title;
-				result += "\"><br><br><input type=\"submit\" value=\"Submit\"></form>";
-		
+				result += formFormer.BookInputWithTitleSet(title);		
 			} else if (title.isEmpty()) {
 				result = "Please specify the title of the work as well as its author.<br>";
-				result += "<form><label for=\"author\">Author</label><br><input type=\"text\" id=\"author\" name=\"author\" value=\"";
-				result += author;
-				result += "\"><br><label for=\"title\">Title</label><br><input type=\"text\" id=\"title\" name=\"title\" value=\"\" autofocus><br><br><input type=\"submit\" value=\"Submit\"></form>";
-
+				result += formFormer.BookInputWithAuthorSet(author);
 			} else {
 				// I believe I have already covered all possible cases.
 				result = "Unexpected case reached internally.<br>";
