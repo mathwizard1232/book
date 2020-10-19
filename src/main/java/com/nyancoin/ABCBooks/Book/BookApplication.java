@@ -25,6 +25,9 @@ public class BookApplication {
 	@Autowired
 	private Author authorService;
 
+	@Autowired
+	private Book bookService;
+
 	public static void main(String[] args) {		
 		SpringApplication.run(BookApplication.class, args);
 	}
@@ -79,6 +82,7 @@ public class BookApplication {
 			Integer aid = authorService.LookupOrAdd(author);
 			result += "Author id comes back as: " + aid;
 			result += "Book id comes back as: " + bookService.LookupOrAdd(aid, title);
+
 			// TODO actually have database recording this
 			// TODO check for obvious duplicate here
 			result = result + "<br><br>" + form;
