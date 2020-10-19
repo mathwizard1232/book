@@ -1,6 +1,6 @@
-package com.nyanchain.ABCBooks.Book;
+package com.nyancoin.ABCBooks.Book;
 
-import com.nyanchain.ABCBooks.Book.Database;
+import com.nyancoin.ABCBooks.Book.Database;
 
 public class Sandbox
 {
