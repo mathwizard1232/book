@@ -5,6 +5,7 @@ import com.nyancoin.ABCBooks.Book.AuthorEntity;
 import com.nyancoin.ABCBooks.Book.Author;
 
 import com.nyancoin.ABCBooks.Book.Form; // Utility class with HTML form constants and helper methods.
+import com.nyancoin.ABCBooks.Book.UIO; // I/O helper class
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -31,6 +32,7 @@ public class BookApplication {
 	private Book bookService;
 
 	private Form formFormer;
+	private UIO UIO;
 
 	public static void main(String[] args) {		
 		SpringApplication.run(BookApplication.class, args);
@@ -39,11 +41,12 @@ public class BookApplication {
 	public BookApplication()
 	{
 		formFormer = new Form();
+		UIO = new UIO();
 	}
 
 	@RequestMapping("/")
 	public String index() {
-		return "Greetings from ABC Books!";
+		return UIO.BasicPage("Greetings from ABC Books!");
 	}
 	
 	@GetMapping("/hello")
@@ -53,56 +56,43 @@ public class BookApplication {
 	
 	@GetMapping(path="/all")
 	public @ResponseBody Iterable<AuthorEntity> getAllAuthors() {
-		return authorRepository.findAll();
-	//public @ResponseBody Iterable<User> getAllUsers() {
-	/*public String getAll() { // debugging version
-		// This returns a JSON or XML with the users*/
-		//return userRepository.findAll();
-		/*String result;
-		result = "";
-		if (userRepository == null) {
-			result += "userRepo null.<br>";
-		}
-		if (authorRepository == null) {
-			result += "autorRepo null.<br>";
-		}
-		
-		return result;*/
-			
+		return authorRepository.findAll();			
 	}
 
 	@RequestMapping("/addbook")
 	public String addbook(@RequestParam(value = "author", defaultValue = "") String author,
 						  @RequestParam(value = "title", defaultValue = "") String title) {
-		String result = "";
-		String form = formFormer.basic_book_input;
+		String result = UIO.GetHeader("Add a Book");
+		String spanColor = "#D6CCA9";
+
+		String form = UIO.basic_book_input;
 		
 		if (author.isEmpty() && title.isEmpty()) {
-			result = form;
+			result += form;
 		} else if (!(author.isEmpty()) && !(title.isEmpty())) {
-			result = "Author: " + author + "; Title: " + title + "<br>";
-			result += "*Beep boop* Database entry added! (Just a bit though.)";
 			Integer aid = authorService.LookupOrAdd(author);
-			result += "<br>Author id comes back as: " + aid + "<br>";
-			result += "Book id comes back as: " + bookService.LookupOrAdd(aid, title);
+			bookService.LookupOrAdd(aid, title);
+			result += UIO.h3("Book Added:");
+			result += UIO.strong("Author:") + UIO.spanColor(author,spanColor);
+			result += "<br><br>";
+			result += UIO.strong("Title:") + UIO.spanColor(title,spanColor);
 
-			result = result + "<br><br>" + form;
+			result += UIO.hr() + form;
 		} else {
-			result = "*Error* Only title or author but not both given.";
-			result = result + "<br><br> Please retry. <br><br>" + form;
-
 			if (author.isEmpty()) {
-				result = "Please specify a name of an author as well as the title.<br>";
-				result += formFormer.BookInputWithTitleSet(title);		
+				result += "Please specify a name of an author as well as the title.<br>";
+				result += UIO.BookInputWithTitleSet(title);		
 			} else if (title.isEmpty()) {
-				result = "Please specify the title of the work as well as its author.<br>";
-				result += formFormer.BookInputWithAuthorSet(author);
+				result += "Please specify the title of the work as well as its author.<br>";
+				result += UIO.BookInputWithAuthorSet(author);
 			} else {
 				// I believe I have already covered all possible cases.
 				result = "Unexpected case reached internally.<br>";
 				result += form;
 			}
 		}
+
+		result += UIO.GetFooter();
 
 		return result;
 	}
