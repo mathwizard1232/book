@@ -2,6 +2,8 @@ package com.nyancoin.ABCBooks.Book;
 
 // This class will contain various I/O utility helper values / functions
 public class UIO {
+	private static Form form;
+
 	public static String GetHeader()
 	{
 		return GetHeader("ABC Books");
@@ -44,12 +46,17 @@ public class UIO {
 
 	public static String hr()
 	{
-		return "<br><br><hr><br><br>\n";
+		return "\n<br><br><hr><br><br>\n\n";
+	}
+
+	// This is a UIO wrapper on core Form functionality; we want Application to go through UIO rather than Form
+	public static String BasicBookInput()
+	{
+		return h3("Next Book:") + form.GenerateBasicBookInput();
 	}
 
 	// Rest is Form functionality, pulled into UIO temporarily (changing BookApplication to go through new UIO rather than Form for overall I/O functionality)
-	public static final String basic_book_input = "<form><label for=\"author\">Author</label><br><input type=\"text\" id=\"author\" name=\"author\" value=\"\" autofocus><br><label for=\"title\">Title</label><br><input type=\"text\" id=\"title\" name=\"title\" value=\"\"><br><br><input type=\"submit\" value=\"Submit\"></form>";
-
+	// These two functions should get converted to use the generation functions rather than magic values when moved back into Form
 	public static String BookInputWithTitleSet(String title)
 	{
 		String result = "";

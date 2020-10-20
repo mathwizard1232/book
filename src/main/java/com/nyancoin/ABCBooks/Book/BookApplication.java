@@ -65,7 +65,7 @@ public class BookApplication {
 		String result = UIO.GetHeader("Add a Book");
 		String spanColor = "#D6CCA9";
 
-		String form = UIO.basic_book_input;
+		String form = UIO.BasicBookInput();
 		
 		if (author.isEmpty() && title.isEmpty()) {
 			result += form;
@@ -73,9 +73,9 @@ public class BookApplication {
 			Integer aid = authorService.LookupOrAdd(author);
 			bookService.LookupOrAdd(aid, title);
 			result += UIO.h3("Book Added:");
-			result += UIO.strong("Author:") + UIO.spanColor(author,spanColor);
-			result += "<br><br>";
-			result += UIO.strong("Title:") + UIO.spanColor(title,spanColor);
+			result += UIO.strong("Author: ") + UIO.spanColor(author,spanColor);
+			result += "<br><br>\n";
+			result += UIO.strong("Title: ") + UIO.spanColor(title,spanColor);
 
 			result += UIO.hr() + form;
 		} else {
