@@ -23,10 +23,43 @@ public class Database {
 	@Autowired
 	private BookRepository bookRepo;
 
+	@Autowired
+	private BoxRepository boxRepo;
+
 	// Using entity manager to get native SQL capabilities in Spring Boot per tutorial:
 	// https://www.firstfewlines.com/post/spring-boot-jpa-run-native-sql-query/
 	@Autowired
     private EntityManagerFactory entityManagerFactory;
+
+	public Integer AddBox(String box_title, String box_label) {
+		BoxEntity entity = new BoxEntity();
+		entity.box_title = box_title;
+		entity.box_label = box_label;
+		boxRepo.save(entity);
+		return entity.box_id;
+	}
+
+	public Integer LookupOrAddBox(String box_title, String box_label) {
+		EntityManager session = entityManagerFactory.createEntityManager();
+
+		try {
+			Integer id = (Integer)session.createNativeQuery("Select box_id FROM boxes WHERE box_title=:box_title")
+                    .setParameter("box_title", box_title)
+                    .getSingleResult();
+
+            return id;
+        }
+        catch (NoResultException e){
+            return AddBox(box_title, box_label);
+        }
+        finally {
+            if(session.isOpen()) session.close();
+        }
+	}
+
+	public Iterable<BoxEntity> FindAllBoxes() {
+		return boxRepo.findAll();
+	}
 
 	public Integer AddBook(Integer author_id, String search_title) {
 		BookEntity entity = new BookEntity();

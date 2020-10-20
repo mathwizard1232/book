@@ -4,6 +4,16 @@ package com.nyancoin.ABCBooks.Book;
 public class UIO {
 	private static Form form;
 
+	public static String br2()
+	{
+		return "\n<br><br>\n";
+	}
+
+	public static String ahref(String target, String anchor)
+	{
+		return "<a href=\"" + target + "\">" + anchor + "</a>\n";
+	}
+
 	public static String GetHeader()
 	{
 		return GetHeader("ABC Books");
@@ -53,6 +63,11 @@ public class UIO {
 	public static String BasicBookInput()
 	{
 		return h3("Next Book:") + form.GenerateBasicBookInput();
+	}
+
+	public static String BasicBoxInput()
+	{
+		return h3("New box:") + form.GenerateBasicBoxInput();
 	}
 
 	// Rest is Form functionality, pulled into UIO temporarily (changing BookApplication to go through new UIO rather than Form for overall I/O functionality)

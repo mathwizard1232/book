@@ -5,24 +5,52 @@ package com.nyancoin.ABCBooks.Book;
 public class Form {		
 	public static final String form_start = "<form>\n";
 
-	public static String LabeledInput(String userLabel, String fieldLabel, boolean focused) {
+	public static String LabeledInput(String userLabel, String fieldLabel, boolean focused, Integer maxlength) {
+		// For a long input, switch to multiline
+		boolean textarea = maxlength > 50;
+		
 		String result = "<label for=\"";
 		result += fieldLabel;
 		result += "\"><strong>";
 		result += userLabel;
 		result += "</strong></label>\n";
 		result += "<br><br>\n";
-		result += "<input type=\"text\" id=\"";
+
+		
+		if (!textarea) {
+			result += "<input type=\"text\" id=\"";
+		} else {
+			result += "<textarea cols=\"50\" rows=\"4\" id=\"";
+		}		
+		
 		result += fieldLabel;
 		result += "\" name=\"";
 		result += fieldLabel;
-		result += "\" style=\"width:50ch\" maxlength=\"50\" value=\"\"";
+		result += "\" style=\"width:";
+		// We aren't going to go wider than 50, just taller
+		result += Math.min(50, maxlength); // this is the width of the input; try to visually match length limit
+		result += "ch\" maxlength=\"";
+		result += maxlength; // this is convenience limit for user's browser's awareness (that is, be aware user devices can disregard; this is for user experience rather than security)
+		result += "\" value=\"\"";
+
 		if (focused)
 		{
 			result += " autofocus";
 		}
-		result += ">\n<br><br>\n";
+
+		result += ">"; // end of input or textarea opening tag
+
+		if (textarea) {
+			result += "</textarea>\n"; // unlike <input>, <textarea> needs closure.
+		}
+
+		
+		result += "\n<br><br>\n";
 		return result;
+	}
+
+	public static String LabeledInput(String userLabel, String fieldLabel, boolean focused) {
+		return LabeledInput(userLabel, fieldLabel, focused, 50);
 	}
 
 	public static String LabeledInput(String userLabel, String fieldLabel)
@@ -46,6 +74,15 @@ public class Form {
 		result += FocusedLabeledInput("Author", "author");
 		result += LabeledInput("Title", "title");
 		result += LabeledSubmit("Add Book");
+		return result;
+	}
+
+	public static String GenerateBasicBoxInput()
+	{
+		String result = form_start;
+		result += FocusedLabeledInput("Box Title", "boxtitle");
+		result += LabeledInput("Box Description", "boxdescription", false, 200);
+		result += LabeledSubmit("Add Box");
 		return result;
 	}
 
