@@ -24,12 +24,22 @@ public class Box {
 		return database.AddBox(box_title, box_label);
 	}
 
+	// This is overloaded: if given two strings, adding a box with given labels; if given two integers, adding a relationship of book in box by ids.
 	public Integer LookupOrAdd(String box_title, String box_label) {
 		return database.LookupOrAddBox(box_title, box_label);
 	}
 
+	public Integer LookupOrAdd(Integer box, Integer book) {
+		// Note that parameter order is reversed here; each order makes most sense in its place.
+		return database.AddBookToBox(book, box);
+	}
+
 	public Iterable<BoxEntity> GetAll() {
 		return database.FindAllBoxes();
+	}
+
+	public String GetTitleById(Integer box_id) {
+		return database.GetBoxTitleById(box_id);
 	}
 
 }

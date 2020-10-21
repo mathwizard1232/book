@@ -75,20 +75,32 @@ public class BookApplication {
 	}
 
 	// TODO: Implement adding the books to a box if specified.
+	// - if completing a request and box specified, add the relationship
 	@RequestMapping("/addbook")
 	public String addbook(@RequestParam(value = "author", defaultValue = "") String author,
 						  @RequestParam(value = "title", defaultValue = "") String title,
 						  @RequestParam(value = "boxid", defaultValue = "") String boxid) {
 		String result = UIO.GetHeader("Add a Book");
 		String spanColor = "#D6CCA9";
+		String box_title = "";
+		Integer nBoxId = UIO.IntFromString(boxid);
 
-		String form = UIO.BasicBookInput();
+		if (boxid != "") {
+			box_title = boxService.GetTitleById(nBoxId);
+			result += "Adding into box titled: " + box_title + UIO.br2();
+		}
+
+		String form = UIO.BasicBookInput(boxid);
 		
 		if (author.isEmpty() && title.isEmpty()) {
 			result += form;
 		} else if (!(author.isEmpty()) && !(title.isEmpty())) {
 			Integer aid = authorService.LookupOrAdd(author);
-			bookService.LookupOrAdd(aid, title);
+			Integer book_id = bookService.LookupOrAdd(aid, title);
+			if (boxid != "") {
+				boxService.LookupOrAdd(nBoxId, book_id);
+			}
+
 			result += UIO.h3("Book Added:");
 			result += UIO.strong("Author: ") + UIO.spanColor(author,spanColor);
 			result += "<br><br>\n";
@@ -98,10 +110,10 @@ public class BookApplication {
 		} else {
 			if (author.isEmpty()) {
 				result += "Please specify a name of an author as well as the title.<br>";
-				result += UIO.BookInputWithTitleSet(title);		
+				result += UIO.BookInputWithTitleSet(title, boxid);		
 			} else if (title.isEmpty()) {
 				result += "Please specify the title of the work as well as its author.<br>";
-				result += UIO.BookInputWithAuthorSet(author);
+				result += UIO.BookInputWithAuthorSet(author, boxid);
 			} else {
 				// I believe I have already covered all possible cases.
 				result = "Unexpected case reached internally.<br>";

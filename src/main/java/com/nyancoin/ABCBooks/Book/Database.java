@@ -3,6 +3,7 @@ package com.nyancoin.ABCBooks.Book;
 import com.nyancoin.ABCBooks.Book.AuthorEntity;
 import com.nyancoin.ABCBooks.Book.AuthorRepository;
 import com.nyancoin.ABCBooks.Book.Author;
+import com.nyancoin.ABCBooks.Book.BoxContentsEntity;
 
 // Using entity manager to get native SQL capabilities in Spring Boot per tutorial:
 // https://www.firstfewlines.com/post/spring-boot-jpa-run-native-sql-query/
@@ -26,10 +27,21 @@ public class Database {
 	@Autowired
 	private BoxRepository boxRepo;
 
+	@Autowired
+	private BoxContentsRepository boxContentsRepo;
+
 	// Using entity manager to get native SQL capabilities in Spring Boot per tutorial:
 	// https://www.firstfewlines.com/post/spring-boot-jpa-run-native-sql-query/
 	@Autowired
     private EntityManagerFactory entityManagerFactory;
+
+	public Integer AddBookToBox(Integer book, Integer box) {
+		BoxContentsEntity entity = new BoxContentsEntity();
+		entity.book = book;
+		entity.box = box;
+		boxContentsRepo.save(entity);
+		return entity.box_contents_id;
+	}
 
 	public Integer AddBox(String box_title, String box_label) {
 		BoxEntity entity = new BoxEntity();
@@ -51,6 +63,24 @@ public class Database {
         }
         catch (NoResultException e){
             return AddBox(box_title, box_label);
+        }
+        finally {
+            if(session.isOpen()) session.close();
+        }
+	}
+
+	public String GetBoxTitleById(Integer box_id) {
+		EntityManager session = entityManagerFactory.createEntityManager();
+
+		try {
+			String id = (String)session.createNativeQuery("Select box_title FROM boxes WHERE box_id=:box_id")
+                    .setParameter("box_id", box_id)
+                    .getSingleResult();
+
+            return id;
+        }
+        catch (NoResultException e){
+            return "Box not found in GetBoxTitleById. id:" + box_id + "\n<br><br>";
         }
         finally {
             if(session.isOpen()) session.close();

@@ -4,6 +4,14 @@ package com.nyancoin.ABCBooks.Book;
 public class UIO {
 	private static Form form;
 
+	public Integer IntFromString(String str) {
+		try {
+			return Integer.parseInt(str);
+		} catch (Exception e) {
+			return -1;
+		}
+	}
+
 	public static String br2()
 	{
 		return "\n<br><br>\n";
@@ -60,9 +68,9 @@ public class UIO {
 	}
 
 	// This is a UIO wrapper on core Form functionality; we want Application to go through UIO rather than Form
-	public static String BasicBookInput()
+	public static String BasicBookInput(String boxid)
 	{
-		return h3("Next Book:") + form.GenerateBasicBookInput();
+		return h3("Next Book:") + form.GenerateBasicBookInput(boxid);
 	}
 
 	public static String BasicBoxInput()
@@ -70,23 +78,13 @@ public class UIO {
 		return h3("New box:") + form.GenerateBasicBoxInput();
 	}
 
-	// Rest is Form functionality, pulled into UIO temporarily (changing BookApplication to go through new UIO rather than Form for overall I/O functionality)
-	// These two functions should get converted to use the generation functions rather than magic values when moved back into Form
-	public static String BookInputWithTitleSet(String title)
+	public static String BookInputWithTitleSet(String title, String boxid)
 	{
-		String result = "";
-		result += "<form><label for=\"author\">Author</label><br><input type=\"text\" id=\"author\" name=\"author\" value=\"\" autofocus><br><label for=\"title\">Title</label><br><input type=\"text\" id=\"title\" name=\"title\" value=\"";
-		result += title;
-		result += "\"><br><br><input type=\"submit\" value=\"Submit\"></form>";
-		return result;
+		return h3("Next Book:") + form.GenerateBookInputWithTitleSet(title, boxid);
 	}
 
-	public static String BookInputWithAuthorSet(String author)
+	public static String BookInputWithAuthorSet(String author, String boxid)
 	{
-		String result = "";
-		result += "<form><label for=\"author\">Author</label><br><input type=\"text\" id=\"author\" name=\"author\" value=\"";
-		result += author;
-		result += "\"><br><label for=\"title\">Title</label><br><input type=\"text\" id=\"title\" name=\"title\" value=\"\" autofocus><br><br><input type=\"submit\" value=\"Submit\"></form>";
-		return result;
+		return h3("Next Book:") + form.GenerateBookInputWithAuthorSet(author, boxid);
 	}
 }
