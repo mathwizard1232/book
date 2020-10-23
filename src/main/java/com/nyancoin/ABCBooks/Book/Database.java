@@ -9,8 +9,14 @@ import com.nyancoin.ABCBooks.Book.BoxContentsEntity;
 // https://www.firstfewlines.com/post/spring-boot-jpa-run-native-sql-query/
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+//import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
+//import javax.persistence.Query;
+import java.util.List;
+import java.util.Iterator;
+
+//import org.hibernate.SQLQuery;
+import org.hibernate.*;
 
 import org.springframework.stereotype.Component;
 
@@ -32,8 +38,12 @@ public class Database {
 
 	// Using entity manager to get native SQL capabilities in Spring Boot per tutorial:
 	// https://www.firstfewlines.com/post/spring-boot-jpa-run-native-sql-query/
+	//@Autowired
+    //private EntityManagerFactory entityManagerFactory;
+
+	// Above we were getting a Java native thing, whereas we want Hibernate's version
 	@Autowired
-    private EntityManagerFactory entityManagerFactory;
+	private EntityManager session;
 
 	public Integer AddBookToBox(Integer book, Integer box) {
 		BoxContentsEntity entity = new BoxContentsEntity();
@@ -52,7 +62,7 @@ public class Database {
 	}
 
 	public Integer LookupOrAddBox(String box_title, String box_label) {
-		EntityManager session = entityManagerFactory.createEntityManager();
+//		EntityManager session = entityManagerFactory.createEntityManager();
 
 		try {
 			Integer id = (Integer)session.createNativeQuery("Select box_id FROM boxes WHERE box_title=:box_title")
@@ -70,7 +80,7 @@ public class Database {
 	}
 
 	public String GetBoxTitleById(Integer box_id) {
-		EntityManager session = entityManagerFactory.createEntityManager();
+//		EntityManager session = entityManagerFactory.createEntityManager();
 
 		try {
 			String id = (String)session.createNativeQuery("Select box_title FROM boxes WHERE box_id=:box_id")
@@ -100,7 +110,7 @@ public class Database {
 	}
 
 	public Integer LookupOrAddBook(Integer author_id, String search_title) {
-		EntityManager session = entityManagerFactory.createEntityManager();
+//		EntityManager session = entityManagerFactory.createEntityManager();
 
 		try {
 			Integer id = (Integer)session.createNativeQuery("Select book_id FROM books WHERE author=:author_id AND search_title=:search_title")
@@ -130,7 +140,7 @@ public class Database {
 	}
 
 	public Integer LookupOrAddAuthor(String search_name) {
-		EntityManager session = entityManagerFactory.createEntityManager();
+//		EntityManager session = entityManagerFactory.createEntityManager();
 
 		try {
 			Integer id = (Integer)session.createNativeQuery("Select author_id FROM authors WHERE search_name=:search_name")
@@ -147,8 +157,12 @@ public class Database {
         }
 	}
 
-	public Iterable<AuthorEntity> GetAllAuthors() {
-		return authorRepo.findAll();
+	public Iterator<AuthorEntity> GetAllAuthors() {
+		//return authorRepo.findAll();
+//		EntityManager session = entityManagerFactory.createEntityManager();
+		SQLQuery query = session.createSQLQuery("SELECT * FROM authors ORDER BY search_name ASC").addEntity(AuthorEntity.class); // this tells Hibernate how to cast results
+        List<AuthorEntity> users = query.getResultList();
+		return users.iterator(); // just testing this other query style; will switch to returning a list
 	}
 
 

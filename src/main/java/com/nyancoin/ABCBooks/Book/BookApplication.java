@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Iterator;
+
 @SpringBootApplication
 @RestController
 public class BookApplication {
@@ -42,7 +44,7 @@ public class BookApplication {
 
 	@RequestMapping("/")
 	public String index() {
-		return UIO.BasicPage("Greetings from ABC Books!<br><br><a href=\"addbox\">Add a box of books.</a><br><br><a href=\"addbook\">Add a book.</a>");
+		return UIO.BasicPage("Greetings from ABC Books!<br><br><a href=\"addbox\">Add a box of books.</a><br><br><a href=\"addbook\">Add a book.</a><br><br><a href=\"review\">View current collection.</a>");
 	}
 
 	// Endpoint kept for nostalgia	
@@ -53,8 +55,20 @@ public class BookApplication {
 	
 	// Will be refactored ; convenience / testing method for now
 	@GetMapping(path="/all")
-	public @ResponseBody Iterable<AuthorEntity> getAllAuthors() {
+	public @ResponseBody Iterator<AuthorEntity> getAllAuthors() {
 		return authorService.GetAll();			
+	}
+
+	@RequestMapping("/review")
+	public String review()
+	{
+		String result = UIO.GetHeader("Review Collection");
+
+		result += authorService.DisplayAuthors();
+
+		result += UIO.GetFooter();
+
+		return result;
 	}
 
 	@RequestMapping("/addbox")
@@ -71,6 +85,9 @@ public class BookApplication {
 			result += boxtitle + UIO.br2() + description + UIO.br2();
 			result += UIO.ahref("addbook?boxid="+boxid,"Add books to this box.");
 		}	
+
+		result += UIO.GetFooter();
+
 		return result;
 	}
 
