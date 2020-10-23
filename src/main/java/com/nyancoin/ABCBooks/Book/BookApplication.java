@@ -74,8 +74,7 @@ public class BookApplication {
 		return result;
 	}
 
-	// TODO: Implement adding the books to a box if specified.
-	// - if completing a request and box specified, add the relationship
+	// TODO: Add completion steps to adding books to a box - review / confirm / edit types of options to add
 	@RequestMapping("/addbook")
 	public String addbook(@RequestParam(value = "author", defaultValue = "") String author,
 						  @RequestParam(value = "title", defaultValue = "") String title,
@@ -85,7 +84,7 @@ public class BookApplication {
 		String box_title = "";
 		Integer nBoxId = UIO.IntFromString(boxid);
 
-		if (boxid != "") {
+		if (! boxid.isEmpty()) {
 			box_title = boxService.GetTitleById(nBoxId);
 			result += "Adding into box titled: " + box_title + UIO.br2();
 		}
@@ -97,7 +96,7 @@ public class BookApplication {
 		} else if (!(author.isEmpty()) && !(title.isEmpty())) {
 			Integer aid = authorService.LookupOrAdd(author);
 			Integer book_id = bookService.LookupOrAdd(aid, title);
-			if (boxid != "") {
+			if (! boxid.isEmpty()) {
 				boxService.LookupOrAdd(nBoxId, book_id);
 			}
 

@@ -1,0 +1,6 @@
+# Annoyed by warning messages about changing line endings, so trying to 
+disable
+# From 
+https://stackoverflow.com/questions/21822650/disable-git-eol-conversions
+* -text
+
