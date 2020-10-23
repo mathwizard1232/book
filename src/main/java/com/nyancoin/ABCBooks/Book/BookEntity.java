@@ -9,7 +9,7 @@ import javax.persistence.Table;
 // Data-only representation to mirror database
 
 @Entity // This tells Hibernate to make a table out of this class
-@Table(name = "Books") // because table name is not author_entity, specify manually; (using "Author" in Java for the Service class vs this data-only one
+@Table(name = "Books") // because table name is not author_entity, specify manually; (using "LegacyAuthor" in Java for the Service class vs this data-only one
 public class BookEntity {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

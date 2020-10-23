@@ -1,10 +1,5 @@
 package com.nyancoin.ABCBooks.Book;
 
-import com.nyancoin.ABCBooks.Book.AuthorEntity;
-import com.nyancoin.ABCBooks.Book.AuthorRepository;
-import com.nyancoin.ABCBooks.Book.Author;
-import com.nyancoin.ABCBooks.Book.BoxContentsEntity;
-
 // Using entity manager to get native SQL capabilities in Spring Boot per tutorial:
 // https://www.firstfewlines.com/post/spring-boot-jpa-run-native-sql-query/
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +7,9 @@ import javax.persistence.EntityManager;
 //import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 //import javax.persistence.Query;
-import java.util.List;
 import java.util.Iterator;
 
 //import org.hibernate.SQLQuery;
-import org.hibernate.*;
 
 import org.springframework.stereotype.Component;
 
@@ -24,73 +17,72 @@ import org.springframework.stereotype.Component;
 // Route all persistence layer connections through this class to keep implementation details away from all other code.
 @Component
 public class Database {
-	@Autowired
 	private AuthorRepository authorRepo;
-
-	@Autowired
 	private BookRepository bookRepo;
-
-	@Autowired
-	private BoxRepository boxRepo;
-
-	@Autowired
 	private BoxContentsRepository boxContentsRepo;
-
+	private BoxRepository boxRepo;
 	// Using entity manager to get native SQL capabilities in Spring Boot per tutorial:
 	// https://www.firstfewlines.com/post/spring-boot-jpa-run-native-sql-query/
-	//@Autowired
-    //private EntityManagerFactory entityManagerFactory;
-
-	// Above we were getting a Java native thing, whereas we want Hibernate's version
-	@Autowired
+	// Grabbing en EntityManagerFactory is "a Java native thing" whereas this is Hibernate's version
 	private EntityManager session;
 
-	public Integer AddBookToBox(Integer book, Integer box) {
-		BoxContentsEntity entity = new BoxContentsEntity();
+	@Autowired
+	public Database(final AuthorRepository authorRepository, final BookRepository bookRepository,
+					final BoxContentsRepository boxContentsRepository, final BoxRepository boxRepository,
+					final EntityManager session) {
+		this.authorRepo = authorRepository;
+		this.bookRepo = bookRepository;
+		this.boxContentsRepo = boxContentsRepository;
+		this.boxRepo = boxRepository;
+		this.session = session;
+	}
+
+	public Integer addBookToBox(final Integer book, final Integer box) {
+		final BoxContentsEntity entity = new BoxContentsEntity();
 		entity.book = book;
 		entity.box = box;
 		boxContentsRepo.save(entity);
 		return entity.box_contents_id;
 	}
 
-	public Integer AddBox(String box_title, String box_label) {
+	public Integer addBox(final String boxTitle, final String boxLabel) {
 		BoxEntity entity = new BoxEntity();
-		entity.box_title = box_title;
-		entity.box_label = box_label;
+		entity.box_title = boxTitle;
+		entity.box_label = boxLabel;
 		boxRepo.save(entity);
 		return entity.box_id;
 	}
 
-	public Integer LookupOrAddBox(String box_title, String box_label) {
+	public Integer lookupOrAddBox(final String boxTitle, final String boxLabel) {
 //		EntityManager session = entityManagerFactory.createEntityManager();
 
 		try {
 			Integer id = (Integer)session.createNativeQuery("Select box_id FROM boxes WHERE box_title=:box_title")
-                    .setParameter("box_title", box_title)
+                    .setParameter("box_title", boxTitle)
                     .getSingleResult();
 
             return id;
         }
         catch (NoResultException e){
-            return AddBox(box_title, box_label);
+            return addBox(boxTitle, boxLabel);
         }
         finally {
             if(session.isOpen()) session.close();
         }
 	}
 
-	public String GetBoxTitleById(Integer box_id) {
+	public String getBoxTitleById(final Integer boxId) {
 //		EntityManager session = entityManagerFactory.createEntityManager();
 
 		try {
 			String id = (String)session.createNativeQuery("Select box_title FROM boxes WHERE box_id=:box_id")
-                    .setParameter("box_id", box_id)
+                    .setParameter("box_id", boxId)
                     .getSingleResult();
 
             return id;
         }
         catch (NoResultException e){
-            return "Box not found in GetBoxTitleById. id:" + box_id + "\n<br><br>";
+            return "Box not found in getBoxTitleById. id:" + boxId + "\n<br><br>";
         }
         finally {
             if(session.isOpen()) session.close();
@@ -132,9 +124,9 @@ public class Database {
 		return bookRepo.findAll();
 	}
 
-	public Integer AddAuthor(String search_name) {
-		AuthorEntity entity = new AuthorEntity();
-		entity.search_name = search_name;
+	public Integer addAuthor(final String author) {
+		final LegacyAuthorEntity entity = new LegacyAuthorEntity();
+		entity.search_name = author;
 		authorRepo.save(entity);
 		return entity.author_id;
 	}
@@ -150,20 +142,18 @@ public class Database {
             return id;
         }
         catch (NoResultException e){
-            return AddAuthor(search_name);
+            return addAuthor(search_name);
         }
         finally {
             if(session.isOpen()) session.close();
         }
 	}
 
-	public Iterator<AuthorEntity> GetAllAuthors() {
+	public Iterator<LegacyAuthorEntity> GetAllAuthors() {
 		//return authorRepo.findAll();
 //		EntityManager session = entityManagerFactory.createEntityManager();
-		SQLQuery query = session.createSQLQuery("SELECT * FROM authors ORDER BY search_name ASC").addEntity(AuthorEntity.class); // this tells Hibernate how to cast results
-        List<AuthorEntity> users = query.getResultList();
-		return users.iterator(); // just testing this other query style; will switch to returning a list
+		// SQLQuery query = session.createQuery("SELECT * FROM authors ORDER BY search_name ASC").addEntity(LegacyAuthorEntity.class); // this tells Hibernate how to cast results
+        // List<LegacyAuthorEntity> users = query.getResultList();
+		// return users.iterator(); // just testing this other query style; will switch to returning a list
 	}
-
-
 }
