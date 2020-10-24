@@ -11,22 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
 
     private final UIO uio;
-
-    /*
-        Prefer autowiring into constructors over fields
-        Technically the annotation can be omitted on a class with a single constructor, but I like the obviousness
-        of having it
-    */
-
+    // Prefer autowiring into constructors over fields
+    // Technically the annotation can be omitted on a class with a single constructor, but I like the obviousness
+    // of having it
     @Autowired
     public MainController(final UIO uio) {
         this.uio = uio;
     }
 
-
     @RequestMapping("/")
     public String index() {
-        return uio.BasicPage("Greetings from ABC Books!<br><br><a href=\"addbox\">Add a box of books.</a><br>" +
+        return uio.basicPage("Greetings from ABC Books!<br><br><a href=\"addbox\">Add a box of books.</a><br>" +
                                    "<br><a href=\"addbook\">Add a book.</a><br><br><a href=\"review\">View current" +
                                    "collection.</a>");
     }

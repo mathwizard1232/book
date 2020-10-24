@@ -1,16 +1,12 @@
 package com.nyancoin.ABCBooks.Book.service;
 
-import com.nyancoin.ABCBooks.Book.dao.BookDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.nyancoin.ABCBooks.Book.domain.Book;
 
-@Service
-public class BookService {
+import java.util.List;
 
-    private BookDao dao;
-
-    @Autowired
-    public BookService(final BookDao dao) {
-        this.dao = dao;
-    }
+public interface BookService {
+    Long add(final Book book);
+    void delete(final Long bookId);
+    Book get(final Long id);
+    List<Book> getAll();
 }

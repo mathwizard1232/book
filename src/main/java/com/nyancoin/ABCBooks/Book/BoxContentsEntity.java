@@ -1,10 +1,6 @@
 package com.nyancoin.ABCBooks.Book;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 // Data-only representation to mirror database
 
@@ -15,6 +11,6 @@ public class BoxContentsEntity {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	Integer box_contents_id;
 	
-	Integer box; // box id of the box which contains the Book
+	Integer box; // box id of the box which contains the LegacyBook
 	Integer book; // a book contained in the box
 }

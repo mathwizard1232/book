@@ -2,13 +2,13 @@ package com.nyancoin.ABCBooks.Book;
 
 // Using entity manager to get native SQL capabilities in Spring Boot per tutorial:
 // https://www.firstfewlines.com/post/spring-boot-jpa-run-native-sql-query/
-import org.springframework.beans.factory.annotation.Autowired;
 
-        import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 // Behavior / interface, with data-only class BoxEntity
-@Service // tell Spring Book is something it should know about as a service: so we get the autowire and can be autowired.
-public class Box {
+@Service // tell Spring LegacyBox is something it should know about as a service: so we get the autowire and can be autowired.
+public class LegacyBox {
 	@Autowired
 	private Database database;
 

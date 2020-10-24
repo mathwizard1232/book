@@ -13,6 +13,7 @@ import java.sql.SQLException;
 public class AuthorMapper implements RowMapper<Author> {
     @Override
     public Author mapRow(final ResultSet rs, final int rowNum) throws SQLException {
+        // No functional difference between using the no-args and full-args constructor, up to your preference
         final Author author = new Author();
 
         author.setId(rs.getLong("id"));

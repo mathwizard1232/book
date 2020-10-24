@@ -2,16 +2,17 @@ package com.nyancoin.ABCBooks.Book;
 
 // Using entity manager to get native SQL capabilities in Spring Boot per tutorial:
 // https://www.firstfewlines.com/post/spring-boot-jpa-run-native-sql-query/
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.EntityManager;
-//import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-//import javax.persistence.Query;
 import java.util.Iterator;
 
+//import javax.persistence.EntityManagerFactory;
+//import javax.persistence.Query;
 //import org.hibernate.SQLQuery;
-
-import org.springframework.stereotype.Component;
 
 
 // Route all persistence layer connections through this class to keep implementation details away from all other code.
@@ -82,7 +83,7 @@ public class Database {
             return id;
         }
         catch (NoResultException e){
-            return "Box not found in getBoxTitleById. id:" + boxId + "\n<br><br>";
+            return "LegacyBox not found in getBoxTitleById. id:" + boxId + "\n<br><br>";
         }
         finally {
             if(session.isOpen()) session.close();
@@ -94,7 +95,7 @@ public class Database {
 	}
 
 	public Integer AddBook(Integer author_id, String search_title) {
-		BookEntity entity = new BookEntity();
+		LegacyBookEntity entity = new LegacyBookEntity();
 		entity.search_title = search_title;
 		entity.author = author_id;
 		bookRepo.save(entity);
@@ -120,7 +121,7 @@ public class Database {
         }
 	}
 
-	public Iterable<BookEntity> FindAllBooks() {
+	public Iterable<LegacyBookEntity> FindAllBooks() {
 		return bookRepo.findAll();
 	}
 

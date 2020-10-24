@@ -31,28 +31,28 @@ public class UIO {
 		return "<a href=\"" + target + "\">" + anchor + "</a>\n";
 	}
 
-	public String GetHeader()
+	public String getHeader()
 	{
-		return GetHeader("ABC Books");
+		return getHeader("ABC Books");
 	}
 
-	public String GetHeader(String title) {
+	public String getHeader(String title) {
 		return "<html>\n<head>\n<title>" + title + "</title>\n</head>\n<body style=\"background-image:url('books.jpg'); padding-left: 20%; padding-right: 40%\">\n\n<div style=\"background-image:url('scroll.jpg'); background-size: 100% 100%; padding:20%\">\n\n";
 	}
 
-	public String GetFooter()
+	public String getFooter()
 	{
 		return "</div>\n\n</body>\n</html>";
 	}
 
-	public String BasicPage(String body)
+	public String basicPage(String body)
 	{
-		return GetHeader() + body + GetFooter();
+		return getHeader() + body + getFooter();
 	}
 
-	public String BasicPageWithTitle(String body, String title)
+	public String basicPageWithTitle(String body, String title)
 	{
-		return GetHeader(title) + body + GetFooter();
+		return getHeader(title) + body + getFooter();
 	}
 
 	public String h3(String content)
@@ -75,21 +75,21 @@ public class UIO {
 	}
 
 	// This is a UIO wrapper on core Form functionality; we want Application to go through UIO rather than Form
-	public String BasicBookInput(String boxid)
+	public String basicBookInput(String boxid)
 	{
-		return h3("Next Book:") + form.GenerateBasicBookInput(boxid);
+		return h3("Next LegacyBook:") + form.GenerateBasicBookInput(boxid);
 	}
 
-	public String BasicBoxInput()
+	public String basicBoxInput()
 	{
 		return h3("New box:") + form.GenerateBasicBoxInput();
 	}
 
-	public String BookInputWithTitleSet(String title, String boxid) {
-		return h3("Next Book:") + form.GenerateBookInputWithTitleSet(title, boxid);
+	public String bookInputWithTitleSet(String title, String boxid) {
+		return h3("Next LegacyBook:") + form.GenerateBookInputWithTitleSet(title, boxid);
 	}
 
-	public String BookInputWithAuthorSet(String author, String boxid) {
-		return h3("Next Book:") + form.GenerateBookInputWithAuthorSet(author, boxid);
+	public String bookInputWithAuthorSet(String author, String boxid) {
+		return h3("Next LegacyBook:") + form.GenerateBookInputWithAuthorSet(author, boxid);
 	}
 }

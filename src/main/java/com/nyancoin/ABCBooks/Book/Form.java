@@ -111,16 +111,16 @@ public class Form {
         result.append(FocusedLabeledInput("LegacyAuthor", "author"));
         result.append(LabeledInput("Title", "title"));
         result.append(HiddenInput("boxid", boxid));
-        result.append(LabeledSubmit("Add Book"));
+        result.append(LabeledSubmit("Add LegacyBook"));
         return result.toString();
     }
 
     public String GenerateBasicBoxInput() {
         final StringBuilder result = new StringBuilder(form_start);
-        result.append(FocusedLabeledInput("Box Title", "boxtitle"));
+        result.append(FocusedLabeledInput("LegacyBox Title", "boxtitle"));
         // Setting to 200 characters max; input not focused
-        result.append(LabeledInput("Box Description", "boxdescription", false, 200));
-        result.append(LabeledSubmit("Add Box"));
+        result.append(LabeledInput("LegacyBox Description", "boxdescription", false, 200));
+        result.append(LabeledSubmit("Add LegacyBox"));
         return result.toString();
     }
 
@@ -129,7 +129,7 @@ public class Form {
         result.append(FocusedLabeledInput("LegacyAuthor", "author"));
         result.append(LabeledInputWithDefaultValue("Title", "title", title));
         result.append(HiddenInput("boxid", boxid));
-        result.append(LabeledSubmit("Add Book"));
+        result.append(LabeledSubmit("Add LegacyBook"));
         return result.toString();
     }
 
@@ -138,7 +138,7 @@ public class Form {
         result.append(LabeledInputWithDefaultValue("LegacyAuthor", "author", author));
         result.append(FocusedLabeledInput("Title", "title"));
         result.append(HiddenInput("boxid", boxid));
-        result.append(LabeledSubmit("Add Book"));
+        result.append(LabeledSubmit("Add LegacyBook"));
         return result.toString();
     }
 

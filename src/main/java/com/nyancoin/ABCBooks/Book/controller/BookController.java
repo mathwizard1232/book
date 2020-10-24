@@ -1,6 +1,6 @@
 package com.nyancoin.ABCBooks.Book.controller;
 
-import com.nyancoin.ABCBooks.Book.Book;
+import com.nyancoin.ABCBooks.Book.domain.Book;
 import com.nyancoin.ABCBooks.Book.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +20,5 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    // Existing Book is patterned to JPA/contains the Database. Extract a Book domain that can be used here.
-    public void add(@RequestBody Book book) {
-    }
+    public void add(@RequestBody final Book book) { bookService.add(book); }
 }
