@@ -21,8 +21,8 @@ public class MainController {
 
     @RequestMapping("/")
     public String index() {
-        return uio.basicPage("Greetings from ABC Books!<br><br><a href=\"addbox\">Add a box of books.</a><br>" +
-                                   "<br><a href=\"addbook\">Add a book.</a><br><br><a href=\"review\">View current" +
+        return uio.basicPage("Greetings from ABC Books!<br><br><a href=\"box/add\">Add a box of books.</a><br>" +
+                                   "<br><a href=\"book/add\">Add a book.</a><br><br><a href=\"review\">View current" +
                                    "collection.</a>");
     }
 
