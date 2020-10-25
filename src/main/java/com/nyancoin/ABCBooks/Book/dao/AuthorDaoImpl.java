@@ -57,7 +57,7 @@ public class AuthorDaoImpl implements CrudDao<Author> {
     }
 
     @Override
-    public final boolean exists(final Author author) {
+    public boolean exists(final Author author) {
         final String sql = " SELECT 1" +
                            " FROM AUTHORS" +
                            " WHERE display_name = :name" +
@@ -68,7 +68,7 @@ public class AuthorDaoImpl implements CrudDao<Author> {
     }
 
     @Override
-    public final Author get(final Long id) {
+    public Author get(final Long id) {
         final String sql = " SELECT :id, display_name AS name, search_name" +
                            " FROM AUTHORS" +
                            " WHERE id = :id";
@@ -86,7 +86,7 @@ public class AuthorDaoImpl implements CrudDao<Author> {
     }
 
     @Override
-    public final List<Author> getAll() {
+    public List<Author> getAll() {
         final String sql = " SELECT id, display_name AS name, search_name" +
                            " FROM AUTHORS";
 
@@ -96,7 +96,7 @@ public class AuthorDaoImpl implements CrudDao<Author> {
     }
 
     @Override
-    public final Long getId(final Author author) {
+    public Long getId(final Author author) {
         final String sql = " SELECT id" +
                            " FROM AUTHORS" +
                            " WHERE display_name = :name";

@@ -1,31 +1,30 @@
 package com.nyancoin.ABCBooks.Book;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
 
 @SpringBootApplication
-@RestController
-public class BookApplication {
+public class BookApplication extends SpringBootServletInitializer {
 //	private LegacyAuthor authorService;
 //	private LegacyBook legacyBookService;
 //	private LegacyBox boxService;
 	// Utility class for I/O
-	private UIO uio;
+	// private UIO uio;
 
 	public static void main(String[] args) {		
 		SpringApplication.run(BookApplication.class, args);
 	}
 
+	/*
 	@Autowired // This Spring annotation means it will automatically inject the requires dependencies
 	public BookApplication(final UIO uio){//}, final LegacyAuthor authorService, final LegacyBook legacyBookService) {
 		this.uio = uio;
 //		this.authorService = authorService;
 //		this.legacyBookService = legacyBookService;
 	}
+	*/
 
 /*	@RequestMapping("/review")
 	public String review() {
