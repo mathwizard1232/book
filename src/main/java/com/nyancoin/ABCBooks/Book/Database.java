@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import java.util.Collections;
 import java.util.Iterator;
 
 //import javax.persistence.EntityManagerFactory;
@@ -156,6 +157,6 @@ public class Database {
 		// SQLQuery query = session.createQuery("SELECT * FROM authors ORDER BY search_name ASC").addEntity(LegacyAuthorEntity.class); // this tells Hibernate how to cast results
         // List<LegacyAuthorEntity> users = query.getResultList();
 		// return users.iterator(); // just testing this other query style; will switch to returning a list
-		return null;
+		return Collections.emptyIterator();
 	}
 }
