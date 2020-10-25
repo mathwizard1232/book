@@ -1,9 +1,11 @@
 package com.nyancoin.ABCBooks.Book.dao;
 
 import com.nyancoin.ABCBooks.Book.domain.Box;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class BoxDaoImpl implements CrudDao<Box> {
     @Override
     public Long add(final Box box) {
