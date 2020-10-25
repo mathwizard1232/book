@@ -8,6 +8,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
+import com.holonplatform.jdbc.BasicDataSource;
+
 @Configuration // Tells Spring to process this before startup/DI
 public class DbConfig {
 
@@ -19,7 +21,10 @@ public class DbConfig {
         // So generally at my work we have datasources configured at the Tomcat server level retrieved by JNDI lookup
         // TODO Configure the datasource here as you like, including to an in-memory database like H2 if you so choose
         // BasicDataSourceBuilder is an easy interface for just providing credentials and a connection URL
-        return null;
+
+        // This needs to be actually configured to work but adding first
+        // in this way to confirm it's pulling in the dependency right
+        return BasicDataSource.builder().build();
     }
 
     @Bean
