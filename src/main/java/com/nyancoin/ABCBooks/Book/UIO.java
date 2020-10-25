@@ -37,7 +37,7 @@ public class UIO {
 	}
 
 	public String getHeader(String title) {
-		return "<html>\n<head>\n<title>" + title + "</title>\n</head>\n<body style=\"background-image:url('books.jpg'); padding-left: 20%; padding-right: 40%\">\n\n<div style=\"background-image:url('scroll.jpg'); background-size: 100% 100%; padding:20%\">\n\n";
+		return "<html>\n<head>\n<title>" + title + "</title>\n</head>\n<body style=\"background-image:url('/books.jpg'); padding-left: 20%; padding-right: 40%\">\n\n<div style=\"background-image:url('/scroll.jpg'); background-size: 100% 100%; padding:20%\">\n\n";
 	}
 
 	public String getFooter()
