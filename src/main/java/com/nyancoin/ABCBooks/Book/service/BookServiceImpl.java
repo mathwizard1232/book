@@ -1,5 +1,6 @@
 package com.nyancoin.ABCBooks.Book.service;
 
+import com.nyancoin.ABCBooks.Book.dao.CrudDao;
 import com.nyancoin.ABCBooks.Book.domain.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,10 +11,10 @@ import java.util.List;
 @Service
 public class BookServiceImpl implements BookService {
 
-    private BookDao bookDao;
+    private CrudDao<Book> bookDao;
 
     @Autowired
-    public BookServiceImpl(final BookDao bookDao) {
+    public BookServiceImpl(final CrudDao<Book> bookDao) {
         this.bookDao = bookDao;
     }
 

@@ -1,5 +1,6 @@
 package com.nyancoin.ABCBooks.Book.service;
 
+import com.nyancoin.ABCBooks.Book.dao.CrudDao;
 import com.nyancoin.ABCBooks.Book.domain.Box;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -7,10 +8,10 @@ import java.util.List;
 
 public class BoxServiceImpl implements BoxService {
 
-    private final BoxDao boxDao;
+    private final CrudDao<Box> boxDao;
 
     @Autowired
-    public BoxServiceImpl(final BoxDao boxDao) {
+    public BoxServiceImpl(final CrudDao<Box> boxDao) {
         this.boxDao = boxDao;
     }
 
