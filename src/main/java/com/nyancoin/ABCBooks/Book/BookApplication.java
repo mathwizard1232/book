@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @RestController
 public class BookApplication {
-	private LegacyAuthor authorService;
-	private LegacyBook legacyBookService;
-	private LegacyBox boxService;
+//	private LegacyAuthor authorService;
+//	private LegacyBook legacyBookService;
+//	private LegacyBox boxService;
 	// Utility class for I/O
 	private UIO uio;
 
@@ -21,13 +21,13 @@ public class BookApplication {
 	}
 
 	@Autowired // This Spring annotation means it will automatically inject the requires dependencies
-	public BookApplication(final UIO uio, final LegacyAuthor authorService, final LegacyBook legacyBookService) {
+	public BookApplication(final UIO uio){//}, final LegacyAuthor authorService, final LegacyBook legacyBookService) {
 		this.uio = uio;
-		this.authorService = authorService;
-		this.legacyBookService = legacyBookService;
+//		this.authorService = authorService;
+//		this.legacyBookService = legacyBookService;
 	}
 
-	@RequestMapping("/review")
+/*	@RequestMapping("/review")
 	public String review() {
 		String result = uio.getHeader("Review Collection");
 
@@ -108,5 +108,5 @@ public class BookApplication {
 
 		return result;
 	}
-
+*/
 }
