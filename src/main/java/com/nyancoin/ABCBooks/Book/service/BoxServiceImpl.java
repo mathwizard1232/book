@@ -3,9 +3,11 @@ package com.nyancoin.ABCBooks.Book.service;
 import com.nyancoin.ABCBooks.Book.dao.CrudDao;
 import com.nyancoin.ABCBooks.Book.domain.Box;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class BoxServiceImpl implements BoxService {
 
     private final CrudDao<Box> boxDao;
