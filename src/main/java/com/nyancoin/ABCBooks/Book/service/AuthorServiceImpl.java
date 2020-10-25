@@ -1,6 +1,7 @@
 package com.nyancoin.ABCBooks.Book.service;
 
 import com.nyancoin.ABCBooks.Book.dao.AuthorDao;
+import com.nyancoin.ABCBooks.Book.dao.CrudDao;
 import com.nyancoin.ABCBooks.Book.domain.Author;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +13,10 @@ import java.util.List;
 @Service
 public class AuthorServiceImpl implements AuthorService {
     private static final Logger logger = LoggerFactory.getLogger(AuthorService.class);
-    private AuthorDao dao;
+    private CrudDao<Author> dao;
 
     @Autowired
-    public AuthorServiceImpl(final AuthorDao dao) {
+    public AuthorServiceImpl(final CrudDao<Author> dao) {
         this.dao = dao;
     }
 
