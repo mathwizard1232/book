@@ -13,12 +13,12 @@ import java.util.List;
 public class BookDaoImpl implements CrudDao<Book> {
 
     private final NamedParameterJdbcTemplate template;
-    private final RowMapper<Book> bookMapper;
+//    private final RowMapper<Book> bookMapper;
 
     // TODO create a mapper that fits this signature
-    public BookDaoImpl(final NamedParameterJdbcTemplate template, final RowMapper<Book> bookMapper) {
+    public BookDaoImpl(final NamedParameterJdbcTemplate template) {//}, final RowMapper<Book> bookMapper) {
         this.template = template;
-        this.bookMapper = bookMapper;
+ //       this.bookMapper = bookMapper;
     }
 
     @Override
