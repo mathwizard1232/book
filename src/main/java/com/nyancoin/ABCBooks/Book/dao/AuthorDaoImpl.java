@@ -101,9 +101,9 @@ public class AuthorDaoImpl implements CrudDao<Author> {
     public Long getId(final Author author) {
         final String sql = " SELECT author_id" +
                            " FROM AUTHORS" +
-                           " WHERE display_name = :name";
+                           " WHERE search_name = :name";
 
-        final SqlParameterSource params = new MapSqlParameterSource("name", author.getName());
+        final SqlParameterSource params = new MapSqlParameterSource("name", author.getSearchName());
         try {
             return template.queryForObject(sql, params, Long.class);
         } catch (final IncorrectResultSizeDataAccessException dae) {
