@@ -2,6 +2,7 @@ package com.nyancoin.ABCBooks.Book.controller;
 
 import com.nyancoin.ABCBooks.Book.UIO;
 import com.nyancoin.ABCBooks.Book.domain.Book;
+import com.nyancoin.ABCBooks.Book.service.AuthorService;
 import com.nyancoin.ABCBooks.Book.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/book")
 @RestController
 public class BookController {
+    @Autowired
+    private AuthorService authorService;
 
     @Autowired
     private BookService bookService;
@@ -17,7 +20,19 @@ public class BookController {
     private UIO UIO;
 
     @PostMapping("/add")
-    public void add(@RequestBody final Book book) { bookService.add(book); }
+    public String add(@RequestParam(value = "author", defaultValue = "") String author,
+                    @RequestParam(value = "title", defaultValue = "") String title,
+                    @RequestParam(value = "boxid", defaultValue = "") String boxid) {
+        // If we've got complete information, proceed
+        if (!(author.isEmpty()) && !(title.isEmpty())) {
+            // First get the id for the author
+            Long aid = authorService.getOrAdd(author);
+            return aid.toString();
+            //return bookService.add(author, title, boxid);
+        } else {
+            return "Incomplete information.";
+        }
+    }
 
     @GetMapping("/add")
     public String add() {

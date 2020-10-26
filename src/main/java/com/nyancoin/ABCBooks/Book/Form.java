@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 // Currently folded into UIO; keeping file as will likely split back out again later once UIO is more established
 @Component
 public class Form {
-    public static final String form_start = "<form>\n";
+    public static final String form_start = "<form method=\"post\">\n";
 
     // userLabel - label to show user describing field
     // fieldLabel - name/id for input to name requestparameter

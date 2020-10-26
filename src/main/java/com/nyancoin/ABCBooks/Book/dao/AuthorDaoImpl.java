@@ -58,12 +58,14 @@ public class AuthorDaoImpl implements CrudDao<Author> {
 
     @Override
     public boolean exists(final Author author) {
+        // search_name is what we expect to match
+        // display_name is the formatted name with titles, etc.
         final String sql = " SELECT 1" +
                            " FROM AUTHORS" +
-                           " WHERE display_name = :name" +
+                           " WHERE search_name = :name" +
                            " LIMIT 1"; // FETCH FIRST 1 ROWS ONLY depending on your RDMBS of choice
 
-        final SqlParameterSource params = new MapSqlParameterSource("name", author.getName());
+        final SqlParameterSource params = new MapSqlParameterSource("name", author.getSearchName());
         return !template.queryForList(sql, params, Integer.class).isEmpty();
     }
 

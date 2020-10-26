@@ -9,4 +9,5 @@ public interface AuthorService {
     List<Author> getAll();
     Author get(final Long id);
     Long getOrAdd(final Author author);
+    Long getOrAdd(String searchName);
 }

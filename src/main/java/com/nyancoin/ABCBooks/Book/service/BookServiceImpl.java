@@ -24,6 +24,11 @@ public class BookServiceImpl implements BookService {
         return null;
     }
 
+    public String add(String author, String title, String boxid)
+    {
+        return "";
+    }
+
     public void delete(final Long id) {
         // TODO implement
         return;

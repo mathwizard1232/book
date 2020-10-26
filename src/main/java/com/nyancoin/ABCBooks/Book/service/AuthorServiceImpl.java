@@ -57,4 +57,10 @@ public class AuthorServiceImpl implements AuthorService {
         logger.debug("Inserted with generated id: {}", id);
         return id;
     }
+
+    public Long getOrAdd(String searchName) {
+        Author a = new Author();
+        a.setSearchName(searchName);
+        return getOrAdd(a);
+    }
 }
