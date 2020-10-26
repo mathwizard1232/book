@@ -34,7 +34,7 @@ public class AuthorDaoImpl implements CrudDao<Author> {
     @Override
     public Long add(final Author author) {
         final String sql = " INSERT INTO AUTHORS (display_name, search_name)" +
-                           " VALUES(:displayName, searchName)";
+                           " VALUES(:displayName, :searchName)";
 
         final SqlParameterSource params = new MapSqlParameterSource("displayName", author.getName())
                                                            .addValue("searchName", author.getSearchName());
@@ -99,7 +99,7 @@ public class AuthorDaoImpl implements CrudDao<Author> {
 
     @Override
     public Long getId(final Author author) {
-        final String sql = " SELECT id" +
+        final String sql = " SELECT author_id" +
                            " FROM AUTHORS" +
                            " WHERE display_name = :name";
 
