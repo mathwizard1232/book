@@ -10,4 +10,5 @@ public interface BookService {
     void delete(final Long bookId);
     Book get(final Long id);
     List<Book> getAll();
+    int getOrAdd(int authorId, String title);
 }

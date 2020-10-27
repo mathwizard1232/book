@@ -8,9 +8,9 @@ import java.util.List;
 @Repository
 public class BoxDaoImpl implements CrudDao<Box> {
     @Override
-    public Long add(final Box box) {
+    public int add(final Box box) {
         // TODO implement
-        return null;
+        return -1;
     }
 
     @Override
@@ -38,8 +38,8 @@ public class BoxDaoImpl implements CrudDao<Box> {
     }
 
     @Override
-    public Long getId(final Box box) {
+    public int getId(final Box box) {
         // TODO implement
-        return null;
+        return -1;
     }
 }

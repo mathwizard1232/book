@@ -30,7 +30,7 @@ public class AuthorServiceImpl implements AuthorService {
     public Author get(final Long id) { return dao.get(id); }
 
     @Override
-    public Long getOrAdd(final Author author) {
+    public int getOrAdd(final Author author) {
         /*
             Super-short-form with ternary and no logging:
             return dao.exists(author) ? dao.getId(author) : dao.add(author);
@@ -42,7 +42,7 @@ public class AuthorServiceImpl implements AuthorService {
             if (logger.isDebugEnabled()) {
                 logger.debug("An author entry already exists for author: {}", author);
             }
-            final Long id = dao.getId(author);
+            final int id = dao.getId(author);
             // Here there is no complex toString cost, so we don't worry about it. If we're not in debug, no message.
             logger.debug("Retrieved existing id: {}", id);
             return id;
@@ -53,12 +53,12 @@ public class AuthorServiceImpl implements AuthorService {
         if (logger.isDebugEnabled()) {
             logger.debug("No author entry exists for author: {}", author);
         }
-        final Long id = dao.add(author);
+        final int id = dao.add(author);
         logger.debug("Inserted with generated id: {}", id);
         return id;
     }
 
-    public Long getOrAdd(String searchName) {
+    public int getOrAdd(String searchName) {
         Author a = new Author();
         a.setSearchName(searchName);
         return getOrAdd(a);

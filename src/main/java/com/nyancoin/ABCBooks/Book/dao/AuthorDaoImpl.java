@@ -29,10 +29,9 @@ public class AuthorDaoImpl implements CrudDao<Author> {
         this.authorMapper = authorMapper;
     }
 
-
     // Alternately you could return the full Author object at this point
     @Override
-    public Long add(final Author author) {
+    public int add(final Author author) {
         final String sql = " INSERT INTO AUTHORS (display_name, search_name)" +
                            " VALUES(:displayName, :searchName)";
 
@@ -43,7 +42,7 @@ public class AuthorDaoImpl implements CrudDao<Author> {
         template.update(sql, params, keyHolder);
 
         // NPE should never occur here, failures to insert would throw an exception prior to this line
-        return keyHolder.getKey().longValue();
+        return keyHolder.getKey().intValue();
     }
 
     @Override
@@ -97,18 +96,17 @@ public class AuthorDaoImpl implements CrudDao<Author> {
         return template.getJdbcOperations().query(sql, authorMapper);
     }
 
-    @Override
-    public Long getId(final Author author) {
+    public int getId(final Author author) {
         final String sql = " SELECT author_id" +
                            " FROM AUTHORS" +
                            " WHERE search_name = :name";
 
         final SqlParameterSource params = new MapSqlParameterSource("name", author.getSearchName());
         try {
-            return template.queryForObject(sql, params, Long.class);
+            return template.queryForObject(sql, params, Integer.class);
         } catch (final IncorrectResultSizeDataAccessException dae) {
             logger.warn("No existing entry found for author {}", author.getName());
-            return null;
+            return -1;
         }
     }
 }

@@ -26,9 +26,12 @@ public class BookController {
         // If we've got complete information, proceed
         if (!(author.isEmpty()) && !(title.isEmpty())) {
             // First get the id for the author
-            Long aid = authorService.getOrAdd(author);
-            return aid.toString();
+            int aid = authorService.getOrAdd(author);
+            //return aid.toString();
             //return bookService.add(author, title, boxid);
+            // Integer book_id = bookService.LookupOrAdd(aid, title);
+            Integer book_id = bookService.getOrAdd(aid, title);
+            return book_id.toString();
         } else {
             return "Incomplete information.";
         }

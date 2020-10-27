@@ -22,9 +22,9 @@ public class BookDaoImpl implements CrudDao<Book> {
     }
 
     @Override
-    public Long add(final Book book) {
+    public int add(final Book book) {
         // TODO implement
-        return null;
+        return -1;
     }
 
     @Override
@@ -53,8 +53,8 @@ public class BookDaoImpl implements CrudDao<Book> {
     }
 
     @Override
-    public Long getId(final Book book) {
+    public int getId(final Book book) {
         // TODO implement
-        return null;
+        return -1;
     }
 }

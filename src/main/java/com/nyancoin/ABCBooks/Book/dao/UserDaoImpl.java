@@ -22,7 +22,7 @@ public class UserDaoImpl implements CrudDao<User> {
     }
 
     @Override
-    public Long add(final User user) {
+    public int add(final User user) {
         final String sql = " INSERT INTO USERS VALUES (:email, :name)";
 
         final SqlParameterSource params = new MapSqlParameterSource("email", user.getEmail())
@@ -30,7 +30,7 @@ public class UserDaoImpl implements CrudDao<User> {
         final GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         template.update(sql, params, keyHolder);
 
-        return keyHolder.getKey().longValue();
+        return keyHolder.getKey().intValue();
     }
 
     @Override
@@ -58,8 +58,8 @@ public class UserDaoImpl implements CrudDao<User> {
     }
 
     @Override
-    public Long getId(final User user) {
+    public int getId(final User user) {
         // TODO implement
-        return null;
+        return -1;
     }
 }

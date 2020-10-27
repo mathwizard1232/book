@@ -8,6 +8,6 @@ public interface AuthorService {
     void delete(final Long id);
     List<Author> getAll();
     Author get(final Long id);
-    Long getOrAdd(final Author author);
-    Long getOrAdd(String searchName);
+    int getOrAdd(final Author author);
+    int getOrAdd(String searchName);
 }

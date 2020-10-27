@@ -29,6 +29,11 @@ public class BookServiceImpl implements BookService {
         return "";
     }
 
+    public int getOrAdd(int author_id, String title)
+    {
+        return 0;
+    }
+
     public void delete(final Long id) {
         // TODO implement
         return;

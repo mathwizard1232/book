@@ -10,5 +10,5 @@ public interface AuthorDao {
     void delete(final Long id);
     Author get(final Long id);
     List<Author> getAll();
-    Long getId(Author author);
+    int getId(Author author);
 }

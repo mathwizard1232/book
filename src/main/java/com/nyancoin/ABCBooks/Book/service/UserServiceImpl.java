@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Long add(final User user) { return userDao.add(user); }
+    public int add(final User user) { return userDao.add(user); }
 
     @Override
     public void delete(final Long id) {
