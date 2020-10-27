@@ -1,8 +1,11 @@
 package com.nyancoin.ABCBooks.Book.dao;
 
+import com.nyancoin.ABCBooks.Book.domain.Author;
 import com.nyancoin.ABCBooks.Book.domain.Book;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,11 +36,21 @@ public class BookDaoImpl implements CrudDao<Book> {
         return;
     }
 
+    public boolean exists(int author_id, String search_title)
+    {
+        final String sql = " SELECT 1" +
+                " FROM BOOKS" +
+                " WHERE search_title = :title AND author = :author_id" +
+                " LIMIT 1"; // FETCH FIRST 1 ROWS ONLY depending on your RDMBS of choice
+
+        final SqlParameterSource params = new MapSqlParameterSource("author_id", author_id)
+                .addValue("title", search_title);
+        return !template.queryForList(sql, params, Integer.class).isEmpty();
+    }
+
     @Override
     public boolean exists(final Book book) {
-        // TODO implement
-        // return !template.query(sql, params, Integer.class).isEmpty();
-        return false;
+        return exists(book.getAuthorId(), book.getSearchTitle());
     }
 
     @Override

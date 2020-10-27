@@ -1,27 +1,27 @@
 package com.nyancoin.ABCBooks.Book.domain;
 
 public class Book {
-    private Long id;
-    private Long authorId;
+    private int id;
+    private int authorId;
     private String searchTitle;
     private String title;
 
     public Book() {}
 
-    public Book (final Long id, final Long authorId, final String searchTitle, final String title) {
+    public Book (final int id, final int authorId, final String searchTitle, final String title) {
         this.id = id;
         this.authorId = authorId;
         this.searchTitle = searchTitle;
         this.title = title;
     }
 
-    public Long getId() { return id; }
+    public int getId() { return id; }
 
-    public void setId(final Long id) { this.id = id; }
+    public void setId(final int id) { this.id = id; }
 
-    public Long getAuthorId() { return authorId; }
+    public int getAuthorId() { return authorId; }
 
-    public void setAuthorId(final Long authorId) { this.authorId = authorId; }
+    public void setAuthorId(final int authorId) { this.authorId = authorId; }
 
     public String getSearchTitle() { return searchTitle; }
 

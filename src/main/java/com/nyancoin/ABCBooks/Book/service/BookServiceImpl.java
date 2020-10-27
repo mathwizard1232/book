@@ -1,5 +1,6 @@
 package com.nyancoin.ABCBooks.Book.service;
 
+import com.nyancoin.ABCBooks.Book.dao.BookDaoImpl;
 import com.nyancoin.ABCBooks.Book.dao.CrudDao;
 import com.nyancoin.ABCBooks.Book.domain.Book;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,11 @@ import java.util.List;
 @Service
 public class BookServiceImpl implements BookService {
 
-    private CrudDao<Book> bookDao;
+    // Depend directly upon the actual implementation because I don't see any reason to copy over every signature change to an interface when this is not going to be polymorphic
+    private BookDaoImpl bookDao;
 
     @Autowired
-    public BookServiceImpl(final CrudDao<Book> bookDao) {
+    public BookServiceImpl(final BookDaoImpl bookDao) {
         this.bookDao = bookDao;
     }
 
@@ -31,7 +33,13 @@ public class BookServiceImpl implements BookService {
 
     public int getOrAdd(int author_id, String title)
     {
-        return 0;
+        if (bookDao.exists(author_id, title)) {
+            // then return looked up value
+        } else {
+            // then add it
+        }
+
+        return -1;
     }
 
     public void delete(final Long id) {
