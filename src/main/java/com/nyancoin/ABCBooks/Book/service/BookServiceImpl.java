@@ -34,12 +34,10 @@ public class BookServiceImpl implements BookService {
     public int getOrAdd(int author_id, String title)
     {
         if (bookDao.exists(author_id, title)) {
-            // then return looked up value
+            return bookDao.getId(title,author_id);
         } else {
-            // then add it
+            return bookDao.add(title, author_id);
         }
-
-        return -1;
     }
 
     public void delete(final Long id) {
