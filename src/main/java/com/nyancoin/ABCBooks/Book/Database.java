@@ -7,9 +7,11 @@ import com.nyancoin.ABCBooks.Book.BoxContentsEntity;
 
 // Using entity manager to get native SQL capabilities in Spring Boot per tutorial:
 // https://www.firstfewlines.com/post/spring-boot-jpa-run-native-sql-query/
+import org.hibernate.query.NativeQuery;
 import org.springframework.beans.factory.annotation.Autowired;
-import javax.persistence.EntityManager;
+//import javax.persistence.EntityManager;
 //import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 //import javax.persistence.Query;
 import java.util.List;
@@ -41,9 +43,11 @@ public class Database {
 	//@Autowired
     //private EntityManagerFactory entityManagerFactory;
 
-	// Above we were getting a Java native thing, whereas we want Hibernate's version
 	@Autowired
-	private EntityManager session;
+	private EntityManager entityManager;
+
+	@Autowired
+	private SessionFactory sessionFactory;
 
 	public Integer AddBookToBox(Integer book, Integer box) {
 		BoxContentsEntity entity = new BoxContentsEntity();
@@ -65,7 +69,7 @@ public class Database {
 //		EntityManager session = entityManagerFactory.createEntityManager();
 
 		try {
-			Integer id = (Integer)session.createNativeQuery("Select box_id FROM boxes WHERE box_title=:box_title")
+			Integer id = (Integer)entityManager.createNativeQuery("Select box_id FROM boxes WHERE box_title=:box_title")
                     .setParameter("box_title", box_title)
                     .getSingleResult();
 
@@ -75,7 +79,7 @@ public class Database {
             return AddBox(box_title, box_label);
         }
         finally {
-            if(session.isOpen()) session.close();
+            if(entityManager.isOpen()) entityManager.close();
         }
 	}
 
@@ -83,7 +87,7 @@ public class Database {
 //		EntityManager session = entityManagerFactory.createEntityManager();
 
 		try {
-			String id = (String)session.createNativeQuery("Select box_title FROM boxes WHERE box_id=:box_id")
+			String id = (String)entityManager.createNativeQuery("Select box_title FROM boxes WHERE box_id=:box_id")
                     .setParameter("box_id", box_id)
                     .getSingleResult();
 
@@ -93,7 +97,7 @@ public class Database {
             return "Box not found in GetBoxTitleById. id:" + box_id + "\n<br><br>";
         }
         finally {
-            if(session.isOpen()) session.close();
+            if(entityManager.isOpen()) entityManager.close();
         }
 	}
 
@@ -113,7 +117,7 @@ public class Database {
 //		EntityManager session = entityManagerFactory.createEntityManager();
 
 		try {
-			Integer id = (Integer)session.createNativeQuery("Select book_id FROM books WHERE author=:author_id AND search_title=:search_title")
+			Integer id = (Integer)entityManager.createNativeQuery("Select book_id FROM books WHERE author=:author_id AND search_title=:search_title")
                     .setParameter("search_title", search_title)
 					.setParameter("author_id", author_id)
                     .getSingleResult();
@@ -124,7 +128,7 @@ public class Database {
             return AddBook(author_id, search_title);
         }
         finally {
-            if(session.isOpen()) session.close();
+            if(entityManager.isOpen()) entityManager.close();
         }
 	}
 
@@ -143,7 +147,7 @@ public class Database {
 //		EntityManager session = entityManagerFactory.createEntityManager();
 
 		try {
-			Integer id = (Integer)session.createNativeQuery("Select author_id FROM authors WHERE search_name=:search_name")
+			Integer id = (Integer)entityManager.createNativeQuery("Select author_id FROM authors WHERE search_name=:search_name")
                     .setParameter("search_name", search_name)
                     .getSingleResult();
 
@@ -153,15 +157,30 @@ public class Database {
             return AddAuthor(search_name);
         }
         finally {
-            if(session.isOpen()) session.close();
+            if(entityManager.isOpen()) entityManager.close();
         }
 	}
 
 	public Iterator<AuthorEntity> GetAllAuthors() {
 		//return authorRepo.findAll();
 //		EntityManager session = entityManagerFactory.createEntityManager();
-		SQLQuery query = session.createSQLQuery("SELECT * FROM authors ORDER BY search_name ASC").addEntity(AuthorEntity.class); // this tells Hibernate how to cast results
-        List<AuthorEntity> users = query.getResultList();
+		Session session = sessionFactory.openSession();
+		//Transaction tx = null;
+		//try {
+		//	tx = session.beginTransaction();
+
+		NativeQuery query = session.createNativeQuery("SELECT * FROM authors ORDER BY search_name ASC").addEntity(AuthorEntity.class);//.addEntity(AuthorEntity.class); // this tells Hibernate how to cast results
+		List<AuthorEntity> users = query.getResultList();
+		//	tx.commit();
+		//}
+		//catch (Exception e) {
+		//	if (tx!=null) tx.rollback();
+		//	throw e;
+		//}
+		//finally {
+			session.close();
+		//}
+
 		return users.iterator(); // just testing this other query style; will switch to returning a list
 	}
 
