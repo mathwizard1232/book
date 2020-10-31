@@ -8,7 +8,7 @@ public class Sandbox
 	{
 
 		System.out.println("Greetings from ABC Books! Welcome to the sandbox!");
-		Database d = new Database();
-		System.out.println("Database was initialized.");
+		//Database d = new Database();
+		//System.out.println("Database was initialized.");
 	}
 }

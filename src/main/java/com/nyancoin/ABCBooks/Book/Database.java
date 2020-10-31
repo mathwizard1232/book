@@ -20,6 +20,8 @@ import java.util.Iterator;
 //import org.hibernate.SQLQuery;
 import org.hibernate.*;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 
@@ -43,8 +45,13 @@ public class Database {
 	//@Autowired
     //private EntityManagerFactory entityManagerFactory;
 
-	@Autowired
+	//@Autowired
+	//@Qualifier("SharedEntityManagerCreator#0")
 	private EntityManager entityManager;
+
+	public Database(ApplicationContext context) {
+	//	entityManager = context.getBean(EntityManager.class);
+	}
 
 	@Autowired
 	private SessionFactory sessionFactory;
