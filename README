@@ -1,1 +1,31 @@
 Initial work on a personal library management system.
+
+On the main branch I have my initial attempt which uses Hibernate.
+
+On the feature/reformat-project branch I have a version without Hibernate which
+was contributed by @TheDecentTech as an example without Hibernate, as well as
+refactored into a more typical idiom.
+
+The main branch is currently working and has add a book / add a box / view authors
+basic functionality.
+
+The feature branch doesn't have all of the main branch functionality reimplemented yet.
+
+---
+
+In order to get the project working from the version in git, it is necessary to
+configure application.properties with the following fields:
+
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.username=<username>
+spring.datasource.password=<password>
+spring.datasource.url=jdbc:mysql://<host>:<port>/<database>
+
+---
+
+One can also set
+
+logging.level.com.nyancoin=TRACE
+
+to change the logging level for the core program (while leaving the framework at normal
+logging level because it is very noisy on higher levels).
