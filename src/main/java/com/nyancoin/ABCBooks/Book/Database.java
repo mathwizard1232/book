@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import javax.persistence.EntityManager;
 //import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 //import javax.persistence.Query;
 import java.util.List;
@@ -42,15 +43,16 @@ public class Database {
 
 	// Using entity manager to get native SQL capabilities in Spring Boot per tutorial:
 	// https://www.firstfewlines.com/post/spring-boot-jpa-run-native-sql-query/
-	//@Autowired
-    //private EntityManagerFactory entityManagerFactory;
+	@Autowired
+    private EntityManagerFactory entityManagerFactory;
 
 	//@Autowired
 	//@Qualifier("SharedEntityManagerCreator#0")
-	private EntityManager entityManager;
+	//@Autowired
+	//private EntityManager entityManager;
 
-	public Database(ApplicationContext context) {
-	//	entityManager = context.getBean(EntityManager.class);
+	public Database() {
+		//entityManager = entityManagerFactory.createEntityManager();
 	}
 
 	@Autowired
@@ -73,7 +75,7 @@ public class Database {
 	}
 
 	public Integer LookupOrAddBox(String box_title, String box_label) {
-//		EntityManager session = entityManagerFactory.createEntityManager();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 
 		try {
 			Integer id = (Integer)entityManager.createNativeQuery("Select box_id FROM boxes WHERE box_title=:box_title")
@@ -91,7 +93,7 @@ public class Database {
 	}
 
 	public String GetBoxTitleById(Integer box_id) {
-//		EntityManager session = entityManagerFactory.createEntityManager();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 
 		try {
 			String id = (String)entityManager.createNativeQuery("Select box_title FROM boxes WHERE box_id=:box_id")
@@ -121,7 +123,7 @@ public class Database {
 	}
 
 	public Integer LookupOrAddBook(Integer author_id, String search_title) {
-//		EntityManager session = entityManagerFactory.createEntityManager();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 
 		try {
 			Integer id = (Integer)entityManager.createNativeQuery("Select book_id FROM books WHERE author=:author_id AND search_title=:search_title")
@@ -151,7 +153,7 @@ public class Database {
 	}
 
 	public Integer LookupOrAddAuthor(String search_name) {
-//		EntityManager session = entityManagerFactory.createEntityManager();
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
 
 		try {
 			Integer id = (Integer)entityManager.createNativeQuery("Select author_id FROM authors WHERE search_name=:search_name")
